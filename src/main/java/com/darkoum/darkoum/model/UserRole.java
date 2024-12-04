@@ -1,7 +1,7 @@
 package com.darkoum.darkoum.model;
 
+// Enum representing different roles in the application
 public enum UserRole {
-    AGENCY,
-    PROVIDER,
-    CLIENT
+    ADMIN,
+    AGENCY
 }

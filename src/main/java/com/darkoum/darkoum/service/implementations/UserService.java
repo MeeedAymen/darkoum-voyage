@@ -9,6 +9,7 @@ import com.darkoum.darkoum.repository.UserRepository;
 import com.darkoum.darkoum.service.interfaces.UserServiceInterface;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,13 +21,18 @@ public class UserService implements UserServiceInterface {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final BCryptPasswordEncoder passwordEncoder;
 
+    // Create user and set role to AGENCY by default
     public UserDtoResponse create(UserDtoRequest userRequest) {
         if (userRepository.existsByEmail(userRequest.getEmail())) {
             throw new IllegalArgumentException("Email already in use.");
         }
+
         User user = modelMapper.map(userRequest, User.class);
         user.setActive(true);
+        user.setRole(UserRole.AGENCY);  // Set the default role to AGENCY
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));  // Encode password
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDtoResponse.class);
     }
@@ -42,10 +48,8 @@ public class UserService implements UserServiceInterface {
 
         existingUser.setName(userRequest.getName());
         existingUser.setEmail(userRequest.getEmail());
-        existingUser.setPassword(userRequest.getPassword());
+        existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));  // Encode password
         existingUser.setPhoneNumber(userRequest.getPhoneNumber());
-        existingUser.setRole(UserRole.valueOf(userRequest.getRole().toUpperCase()));
-        existingUser.setActive(userRequest.isActive());
 
         User updatedUser = userRepository.save(existingUser);
         return modelMapper.map(updatedUser, UserDtoResponse.class);
