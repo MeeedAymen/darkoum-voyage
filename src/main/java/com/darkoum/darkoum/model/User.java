@@ -9,8 +9,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -53,4 +58,5 @@ public class User {
 
     @Column(name = "is_active")
     private boolean isActive = true;
+
 }
