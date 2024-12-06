@@ -20,6 +20,7 @@ public class SecurityConfiguration {
     private static final String[] WHITE_LIST_URL = {"/**"
 
     };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors(Customizer.withDefaults())
@@ -27,17 +28,15 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                                 req.requestMatchers(WHITE_LIST_URL)
                                         .permitAll()
-//                                .requestMatchers(HttpMethod.GET,"").hasAnyAuthority("")
+//                                      .requestMatchers(HttpMethod.GET,"").hasAnyAuthority("")
                                         .anyRequest()
                                         .authenticated()
                 )
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 //                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-        ;
+//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 
 }
