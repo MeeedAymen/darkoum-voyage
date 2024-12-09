@@ -1,11 +1,15 @@
 package com.darkoum.darkoum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,19 +27,32 @@ public class Provider {
     @NotBlank(message = "Company name is required")
     private String companyName;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Email is required")
+    @Column(unique = true, nullable = false)
+    @Email(message = "Email should be valid")
     private String email;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column
     private String address;
 
-    @Column(name = "service_type", nullable = false)
+    @Column(name = "service_type")
     private String serviceType;
 
-    @OneToMany(mappedBy = "provider")
-    private List<Article> articles;  // Relation OneToMany avec Article
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    // Relations
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @OneToMany(mappedBy = "provider", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Article> articles;
 }

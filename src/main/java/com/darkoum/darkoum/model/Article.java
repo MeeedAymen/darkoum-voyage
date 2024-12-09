@@ -1,10 +1,15 @@
 package com.darkoum.darkoum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -19,25 +24,43 @@ public class Article {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Title is required")
     private String title;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
     @Column(nullable = false)
-    private float price;
+    @Positive(message = "Price must be positive")
+    private Float price;
 
-    @Column(nullable = false)
+    @Column
     private String category;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    // Relations
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "provider_id", nullable = false)
-    private Provider provider;  // Relation ManyToOne avec Provider
+    private Provider provider;
 
-    @ManyToMany
-    @JoinTable(
-            name = "article_pack",
-            joinColumns = @JoinColumn(name = "article_id"),
-            inverseJoinColumns = @JoinColumn(name = "pack_id"))
-    private List<Pack> packs;  // Relation ManyToMany avec Pack
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Vente> ventes;
+
+    @ManyToMany(mappedBy = "articles")
+    private List<Pack> packs;
 }

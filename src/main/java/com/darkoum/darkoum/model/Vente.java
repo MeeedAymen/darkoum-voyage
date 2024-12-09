@@ -1,9 +1,14 @@
 package com.darkoum.darkoum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "ventes")
@@ -16,24 +21,44 @@ public class Vente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "sale_date")
+    @CreationTimestamp
+    private LocalDateTime saleDate;
+
+    @Column(name = "total_amount")
+    @Positive(message = "Total amount must be positive")
+    private Float totalAmount;
+
+    @Column(name = "payment_status")
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    // Relations
     @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false)
-    private Client client;  // Relation ManyToOne avec Client
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "article_id", nullable = false)
-    private Article article;  // Relation ManyToOne avec Article
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     @ManyToOne
-    @JoinColumn(name = "pack_id", nullable = false)
-    private Pack pack;  // Relation ManyToOne avec Pack
+    @JoinColumn(name = "article_id")
+    private Article article;
 
-    @Column(name = "sale_date", nullable = false)
-    private java.time.LocalDate saleDate;
+    @ManyToOne
+    @JoinColumn(name = "pack_id")
+    private Pack pack;
 
-    @Column(name = "total_amount", nullable = false)
-    private float totalAmount;
-
-    @Column(name = "payement_status", nullable = false)
-    private String payementStatus;
+    public enum PaymentStatus {
+        PENDING, PAID, CANCELLED
+    }
 }

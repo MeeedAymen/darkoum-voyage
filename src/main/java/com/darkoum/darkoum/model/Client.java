@@ -1,12 +1,17 @@
 package com.darkoum.darkoum.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "clients")
@@ -21,21 +26,38 @@ public class Client {
 
     @Column(nullable = false)
     @NotBlank(message = "Name is required")
-    @Size(min = 4, max = 70, message = "Name must be between 4 and 70 characters")
+    @Size(min = 2, max = 70, message = "Name must be between 2 and 70 characters")
     private String name;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Email is required")
+    @Column(unique = true, nullable = false)
+    @Email(message = "Email should be valid")
     private String email;
 
     @Column(name = "phone_number")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column
     private String address;
 
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
+
+    // Relations
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;  // Relation ManyToOne avec User
+    private User user;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Pack> packs;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Vente> ventes;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Article> articles;
 }
