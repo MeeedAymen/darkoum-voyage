@@ -3,6 +3,7 @@ package com.darkoum.darkoum.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,11 @@ public class Article {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Name is required")
+    @Size(min = 4, max = 70, message = "Name must be between 4 and 70 characters")
+    private String name;
+
+    @Column(nullable = false)
     @NotBlank(message = "Title is required")
     private String title;
 
@@ -32,7 +38,7 @@ public class Article {
 
     @Column(nullable = false)
     @Positive(message = "Price must be positive")
-    private Float price;
+    private Double price;
 
     @Column
     private String category;
@@ -44,6 +50,10 @@ public class Article {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Column(nullable = false)
+    @Positive(message = "Stock must be positive")
+    private Integer stock;
 
     // Relations
     @ManyToOne
@@ -63,4 +73,7 @@ public class Article {
 
     @ManyToMany(mappedBy = "articles")
     private List<Pack> packs;
+
+    public void setStock(@Positive(message = "Stock must be positive") Integer stock) {
+    }
 }

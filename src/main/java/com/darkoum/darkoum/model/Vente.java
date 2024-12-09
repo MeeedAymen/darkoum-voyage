@@ -41,6 +41,15 @@ public class Vente {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    @Column(name = "total_price")
+    private Double totalPrice;
+
+    @Column(name = "description")
+    private String description;
+
     // Relations
     @ManyToOne
     @JoinColumn(name = "user_id")

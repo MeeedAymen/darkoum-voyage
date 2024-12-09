@@ -9,9 +9,14 @@ import java.util.List;
 
 public interface ClientServiceInterface {
     ClientDtoResponse createClient(ClientDtoRequest clientDtoRequest);
+
     ClientDtoResponse getClientById(Long id);
+
     List<ClientDtoResponse> getAllClients();
+
     List<ClientDtoResponse> getClientsByUser(Long userId);
+
     ClientDtoResponse updateClient(Long id, ClientDtoRequest clientDtoRequest);
+
     void deleteClient(Long id);
 }

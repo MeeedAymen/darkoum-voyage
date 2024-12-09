@@ -8,6 +8,7 @@ import com.darkoum.darkoum.model.User;
 import com.darkoum.darkoum.repository.ClientRepository;
 import com.darkoum.darkoum.repository.UserRepository;
 import com.darkoum.darkoum.service.interfaces.ClientServiceInterface;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class ClientService implements ClientServiceInterface {
 
     @Autowired
