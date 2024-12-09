@@ -1,7 +1,5 @@
 package com.darkoum.darkoum.service.interfaces;
 
-
-
 import com.darkoum.darkoum.dtos.request.ClientDtoRequest;
 import com.darkoum.darkoum.dtos.response.ClientDtoResponse;
 

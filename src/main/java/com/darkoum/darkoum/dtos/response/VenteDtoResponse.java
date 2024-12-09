@@ -1,5 +1,6 @@
 package com.darkoum.darkoum.dtos.response;
 
+import com.darkoum.darkoum.model.PaymentStatus;
 import lombok.Getter;
 import lombok.Setter;
 

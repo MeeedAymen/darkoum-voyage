@@ -66,8 +66,4 @@ public class Vente {
     @ManyToOne
     @JoinColumn(name = "pack_id")
     private Pack pack;
-
-    public enum PaymentStatus {
-        PENDING, PAID, CANCELLED
-    }
 }
