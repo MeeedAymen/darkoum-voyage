@@ -32,7 +32,7 @@ public class UserService implements UserServiceInterface {
         User user = modelMapper.map(userRequest, User.class);
         user.setActive(true);
         user.setRole(UserRole.AGENCY);  // Set the default role to AGENCY
-        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));  // Encode password
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         User savedUser = userRepository.save(user);
         return modelMapper.map(savedUser, UserDtoResponse.class);
     }
@@ -48,7 +48,7 @@ public class UserService implements UserServiceInterface {
 
         existingUser.setName(userRequest.getName());
         existingUser.setEmail(userRequest.getEmail());
-        existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));  // Encode password
+        existingUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         existingUser.setPhoneNumber(userRequest.getPhoneNumber());
 
         User updatedUser = userRepository.save(existingUser);

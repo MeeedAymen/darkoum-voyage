@@ -82,8 +82,7 @@ public class ArticleService implements ArticleServiceInterface {
         dto.setName(article.getName());
         dto.setPrice(article.getPrice());
         dto.setStock(article.getStock());
-        // Changement ici pour utiliser getCompanyName au lieu de getName
-        dto.setProviderName(article.getProvider().getCompanyName()); // Utilisation du champ companyName
+        dto.setProviderName(article.getProvider().getCompanyName());
         return dto;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 @AllArgsConstructor
 public class ProviderService implements ProviderServiceInterface {
@@ -22,9 +23,9 @@ public class ProviderService implements ProviderServiceInterface {
     @Override
     public ProviderDtoResponse createProvider(ProviderDtoRequest providerDtoRequest) {
         Provider provider = new Provider();
-        provider.setCompanyName(providerDtoRequest.getName());  // Corrected field name
+        provider.setCompanyName(providerDtoRequest.getName());
         provider.setEmail(providerDtoRequest.getEmail());
-        provider.setPhoneNumber(providerDtoRequest.getPhone());  // Corrected field name
+        provider.setPhoneNumber(providerDtoRequest.getPhone());
 
         Provider savedProvider = providerRepository.save(provider);
 
@@ -51,9 +52,9 @@ public class ProviderService implements ProviderServiceInterface {
         Provider provider = providerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Provider not found"));
 
-        provider.setCompanyName(providerDtoRequest.getName());  // Corrected field name
+        provider.setCompanyName(providerDtoRequest.getName());
         provider.setEmail(providerDtoRequest.getEmail());
-        provider.setPhoneNumber(providerDtoRequest.getPhone());  // Corrected field name
+        provider.setPhoneNumber(providerDtoRequest.getPhone());
 
         Provider updatedProvider = providerRepository.save(provider);
 
@@ -70,9 +71,9 @@ public class ProviderService implements ProviderServiceInterface {
     private ProviderDtoResponse mapToDto(Provider provider) {
         ProviderDtoResponse dto = new ProviderDtoResponse();
         dto.setId(provider.getId());
-        dto.setName(provider.getCompanyName());  // Corrected field name
+        dto.setName(provider.getCompanyName());
         dto.setEmail(provider.getEmail());
-        dto.setPhone(provider.getPhoneNumber());  // Corrected field name
+        dto.setPhone(provider.getPhoneNumber());
         return dto;
     }
 }
